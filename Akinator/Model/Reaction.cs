@@ -1,4 +1,4 @@
-﻿namespace FuzzyLogic
+﻿namespace AkinatorEngine.Model
 {
     /// <summary>
     /// Aj

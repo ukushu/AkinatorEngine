@@ -1,49 +1,34 @@
-﻿using AkinatorEngine.FuzzyLogic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AkinatorEngine.FuzzyLogic;
+using AkinatorEngine.Model;
 
-namespace FuzzyLogic
+namespace AkinatorEngine
 {
     public class GameLogic
     {
-        public ApriorPossibilityType ApriorPossibilityType = ApriorPossibilityType.Intelligent;
+        public ApriorAnswerPossibilityType ApriorAnswerPossibilityType = ApriorAnswerPossibilityType.Intelligent;
 
-        public Dictionary<string, Reaction> QuestionAndReactionHistory = new Dictionary<string, Reaction>();
+        public Dictionary<Question, Reaction> QuestionAndReactionHistory = new Dictionary<Question, Reaction>();
+
+        public List<Question> Questions = new List<Question>();
+        public List<Answer> Answers = new List<Answer>();
 
         private int ReactionQuantity { get { return Enum.GetNames(typeof(Reaction)).Length; } }
 
         //TODO: 
-        private int CountOfGamesWhenAnswerIs(string answer) { return 1; }
-        
-        //TODO: 
         private int CountOfGames { get { return 1; } }
         
-        ///TODO:
-        private int CountOfExactReactionForThisQWhenThinkAboutAnswer(string question, Reaction reaction)
+        private float ApriorPossibilityOfAnswer(Answer answer)
         {
-            return 1;
-        }
-
-        ///TODO:
-        private int CountOfQuestionAskedWhenThinkAboutAnswer(string q, string answer)
-        {
-            return 1;
-        }
-
-        private int CountOfAnswers { get { return 1; } }
-
-        public int QuestionsAskedCounter { get { return QuestionAndReactionHistory.Count; } }
-
-        private float ApriorPossibilityOfAnswer(string answer)
-        {
-            if (ApriorPossibilityType == ApriorPossibilityType.Standard)
+            if (ApriorAnswerPossibilityType == ApriorAnswerPossibilityType.Standard)
             {
-                return 1.0f / CountOfAnswers;
+                return 1.0f / Answers.Count;
             }
-            else if (ApriorPossibilityType == ApriorPossibilityType.Intelligent)
+            else if (ApriorAnswerPossibilityType == ApriorAnswerPossibilityType.Intelligent)
             {
-                return (float)CountOfGamesWhenAnswerIs(answer) / CountOfGames;
+                return (float)answer.CountOfGamesWhenWasAsTarget / CountOfGames;
             }
 
             return 0;
@@ -52,9 +37,9 @@ namespace FuzzyLogic
         /// <summary>
         /// pBAi
         /// </summary>
-        private float PossibilityOfQuestionsAndReactionsRelativelyPossibleAnswer(string answer)
+        private float PossibilityOfQuestionsAndReactionsRelativelyPossibleAnswer(Answer answer)
         {
-            if (QuestionsAskedCounter == 0)
+            if (QuestionAndReactionHistory.Count == 0)
             {
                 return ApriorPossibilityOfAnswer(answer);
             }
@@ -79,12 +64,12 @@ namespace FuzzyLogic
         /// <summary>
         /// pBjAi
         /// </summary>
-        private float PossibilityOfExactReactionOnQuestionRelativelyAnswer(string question, Reaction reaction, string answer)
+        private float PossibilityOfExactReactionOnQuestionRelativelyAnswer(Question question, Reaction reaction, Answer answer)
         {
             float pBjAi;
 
-            var countOfExactReactionForThisQWhenThinkAboutAnswer = CountOfExactReactionForThisQWhenThinkAboutAnswer(question, reaction);
-            var countOfQuestionAskedWhenThinkAboutAnswer = CountOfQuestionAskedWhenThinkAboutAnswer(question, answer);
+            var countOfExactReactionForThisQWhenThinkAboutAnswer = question.ReactionCountWhenThinkAboutAnswer(answer,reaction);
+            var countOfQuestionAskedWhenThinkAboutAnswer = question.TimesAskedWhenThinkAbout(answer);
 
             if (countOfExactReactionForThisQWhenThinkAboutAnswer == 0)
             {
@@ -106,7 +91,7 @@ namespace FuzzyLogic
         /// pAiB
         /// розраховується індивідуально для кожної відповідіі
         /// </summary>
-        public float PossibilityOfAnswer(string answer)
+        private float PossibilityOfAnswer(Answer answer)
         {
             var pBAi = PossibilityOfQuestionsAndReactionsRelativelyPossibleAnswer(answer);
 
@@ -122,6 +107,42 @@ namespace FuzzyLogic
             var rez = Helper.Bayes(1, pBAi, B);
 
             return rez;
-        } 
+        }
+
+        private void CalcAnswersPossibilityAndSortByIt()
+        {
+            foreach (var answ in Answers)
+            {
+                answ.Possibility = PossibilityOfAnswer(answ);
+            }
+
+            Answers = Answers.OrderByDescending(o => o.Possibility).ToList();
+        }
+
+        private void CalcQuestionIsNextPossibility()
+        {
+            var answerWithMaxPoss = Answers[0];
+            
+            foreach (var q in Questions)
+            {
+                float maxChangeOfPossibility = 0;
+
+                foreach (Reaction react in Enum.GetValues(typeof(Reaction)))
+                {
+                    maxChangeOfPossibility += PossibilityOfExactReactionOnQuestionRelativelyAnswer(q, react,
+                        answerWithMaxPoss);
+                }
+                
+                q.PossibilityOfThisIsNext = maxChangeOfPossibility + answerWithMaxPoss.Possibility;
+            }
+
+            Questions = Questions.OrderByDescending(o => o.PossibilityOfThisIsNext).ToList();
+        }
+
+        public void CalcPossibilities()
+        {
+            CalcAnswersPossibilityAndSortByIt();
+            CalcQuestionIsNextPossibility();
+        }
     }
 }

@@ -103,6 +103,7 @@
             this.btnAddQuestion.TabIndex = 3;
             this.btnAddQuestion.Text = "+";
             this.btnAddQuestion.UseVisualStyleBackColor = true;
+            this.btnAddQuestion.Click += new System.EventHandler(this.btnAddQuestion_Click);
             // 
             // txtBoxQuestionFilter
             // 
@@ -204,7 +205,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(638, 359);
+            this.ClientSize = new System.Drawing.Size(805, 359);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";

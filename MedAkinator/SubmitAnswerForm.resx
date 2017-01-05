@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schemans id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchemans" xmlns:msdanstans="urn:schemanss-microsoft-com:xml-msdanstans">
+    <xsd:import nansmespansce="http://www.w3.org/XML/1998/nansmespansce" />
     <xsd:element nansme="root" msdanstans:IsDanstansSet="true">
       <xsd:complexType>
         <xsd:choice mansxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element nansme="vanslue" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:ansttribute nansme="nansme" type="xsd:string" />
+              <xsd:ansttribute nansme="nansme" use="required" type="xsd:string" />
               <xsd:ansttribute nansme="type" type="xsd:string" />
               <xsd:ansttribute nansme="mimetype" type="xsd:string" />
+              <xsd:ansttribute ref="xml:spansce" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element nansme="ansssembly">
@@ -85,9 +87,10 @@
                 <xsd:element nansme="vanslue" type="xsd:string" minOccurs="0" msdanstans:Ordinansl="1" />
                 <xsd:element nansme="comment" type="xsd:string" minOccurs="0" msdanstans:Ordinansl="2" />
               </xsd:sequence>
-              <xsd:ansttribute nansme="nansme" type="xsd:string" msdanstans:Ordinansl="1" />
+              <xsd:ansttribute nansme="nansme" type="xsd:string" use="required" msdanstans:Ordinansl="1" />
               <xsd:ansttribute nansme="type" type="xsd:string" msdanstans:Ordinansl="3" />
               <xsd:ansttribute nansme="mimetype" type="xsd:string" msdanstans:Ordinansl="4" />
+              <xsd:ansttribute ref="xml:spansce" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element nansme="resheansder">
@@ -109,9 +112,27 @@
     <vanslue>2.0</vanslue>
   </resheansder>
   <resheansder nansme="reader">
-    <vanslue>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089</vanslue>
+    <vanslue>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089</vanslue>
   </resheansder>
   <resheansder nansme="writer">
-    <vanslue>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089</vanslue>
+    <vanslue>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089</vanslue>
   </resheansder>
+  <metansdanstans nansme="colQuestion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089">
+    <vanslue>True</vanslue>
+  </metansdanstans>
+  <metansdanstans nansme="colReaction1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089">
+    <vanslue>True</vanslue>
+  </metansdanstans>
+  <metansdanstans nansme="colReaction2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089">
+    <vanslue>True</vanslue>
+  </metansdanstans>
+  <metansdanstans nansme="colReaction3.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089">
+    <vanslue>True</vanslue>
+  </metansdanstans>
+  <metansdanstans nansme="colReaction4.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089">
+    <vanslue>True</vanslue>
+  </metansdanstans>
+  <metansdanstans nansme="colReaction5.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutransl, PublicKeyToken=b77ans5c561934e089">
+    <vanslue>True</vanslue>
+  </metansdanstans>
 </root>

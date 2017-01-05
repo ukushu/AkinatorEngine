@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using AkinatorEngine;
+using AkinatorEngine.Model;
 
 namespace MedAkinator
 {
     public partial class Form1 : Form
     {
-        public Dictionary<string, float> QuestionAndEntropy = new Dictionary<string, float>();
-        public Dictionary<string, float> AnswerAndEntropy = new Dictionary<string, float>();
+        GameLogic _gameLogic = new GameLogic();
+
+        public List<Question> QuestionAndEntropy = new List<Question>();
+        public List<Answer> AnswerAndEntropy = new List<Answer>();
         
+
         public Form1()
         {
             InitializeComponent();
@@ -18,63 +22,37 @@ namespace MedAkinator
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            FillDicts();
+            UpdateAllLists();
+        }
+
+        private void UpdateAllLists()
+        {
             FillQuestions(txtBoxQuestionFilter.Text);
             FillAnswers(txtBoxAnswerFilter.Text);
         }
 
-        private void FillDicts()
-        {
-            QuestionAndEntropy.Add("Він красивий?", 0.5f);
-            QuestionAndEntropy.Add("Він п'є кров?", 0.4f);
-            QuestionAndEntropy.Add("Він одружений?", 0.4f);
-            QuestionAndEntropy.Add("Він старший 50?", 0.3f);
-            QuestionAndEntropy.Add("Він старший 20?", 0.3f);
-            QuestionAndEntropy.Add("Він п'є?", 0.3f);
-            QuestionAndEntropy.Add("Він реальний?", 0.3f);
-            QuestionAndEntropy.Add("Він з відеогри?", 0.3f);
-            QuestionAndEntropy.Add("Він знімався в серіалах?", 0.3f);
-            QuestionAndEntropy.Add("Він актор?", 0.3f);
-            QuestionAndEntropy.Add("Він з Росії?", 0.3f);
-            QuestionAndEntropy.Add("Він живий?", 0.3f);
-            QuestionAndEntropy.Add("Він з реальності Final Fantasy?", 0.3f);
-            QuestionAndEntropy.Add("Він з реальності Mortal Compbat?", 0.2f);
-            QuestionAndEntropy.Add("Він аніме персонаж?", 0.2f);
-            QuestionAndEntropy.Add("Він король?", 0.2f);
-            QuestionAndEntropy.Add("Він багатий?", 0.2f);
-            QuestionAndEntropy.Add("Він співак?", 0.2f);
-            QuestionAndEntropy.Add("В нього є колеса?", 0.1f);
-            QuestionAndEntropy.Add("В нього 2 колеса?", 0.1f);
-            QuestionAndEntropy.Add("Це жінка?", 0.1f);
-
-            AnswerAndEntropy.Add("Шварценеггер", 0.5f);
-            AnswerAndEntropy.Add("Дональд Трамп", 0.1f);
-            AnswerAndEntropy.Add("Бред Питт", 0.1f);
-            AnswerAndEntropy.Add("Анджеліна Джоулі", 0.1f);
-            AnswerAndEntropy.Add("Річард Гір", 0.1f);
-            AnswerAndEntropy.Add("Валерій Пістольний", 0.6543f);
-            AnswerAndEntropy.Add("Аліса з Країни Чудес", 0.1342f);
-            AnswerAndEntropy.Add("Потяг", 0.1342f);
-            AnswerAndEntropy.Add("Дункан МакЛауд", 0.1342f);
-            AnswerAndEntropy.Add("Lilu(FFX)", 0.14342f);
-            AnswerAndEntropy.Add("Tidus(FFX)", 0.14342f);
-            AnswerAndEntropy.Add("Auron(FFX)", 0.14342f);
-            AnswerAndEntropy.Add("Rikku(FFX)", 0.14342f);
-            AnswerAndEntropy.Add("Yuna(FFX)", 0.14342f);
-            AnswerAndEntropy.Add("Shiva(FFX)", 0.14342f);
-            AnswerAndEntropy.Add("Ifrit(FFX)", 0.14342f);
-            AnswerAndEntropy.Add("Kaktur(FFX)", 0.14342f);
-            AnswerAndEntropy.Add("Odin(FFX)", 0.14342f);
-        }
-
         private void FillQuestions(string filter = "")
         {
-            FillListBox(filter, QuestionAndEntropy, lstBoxQuestions);
+            Dictionary<string, float> tmp = new Dictionary<string, float>();
+
+            foreach (var q in _gameLogic.QuestionsNotAsked)
+            {
+                tmp.Add(q.Text, (float)Math.Round(q.PossibilityOfThisIsNext, 5));
+            }
+
+            FillListBox(filter, tmp, lstBoxQuestions);
         }
 
         private void FillAnswers(string filter = "")
         {
-            FillListBox(filter, AnswerAndEntropy, lstBoxAnswers);
+            Dictionary<string, float> tmp = new Dictionary<string, float>();
+
+            foreach (var ans in _gameLogic.AnswersAll)
+            {
+                tmp.Add(ans.Text, (float) Math.Round(ans.Possibility, 5) );
+            }
+
+            FillListBox(filter, tmp, lstBoxAnswers);
         }
         
         private void FillListBox(string filter, Dictionary<string, float> dataSource, ListBox lstBox)
@@ -94,6 +72,11 @@ namespace MedAkinator
             }
 
             lstBox.Items.AddRange(items);
+
+            if (lstBox.Items.Count > 0)
+            {
+                lstBox.SelectedIndex = 0;
+            }
         }
 
         private void txtBoxQuestionFilter_TextChanged(object sender, EventArgs e)
@@ -108,8 +91,172 @@ namespace MedAkinator
 
         private void btnAddQuestion_Click(object sender, EventArgs e)
         {
-            var db = new Db();
-            db.AddQuestion($"is it true? {DateTime.Now}");
+            QuestionEditForm qef = new QuestionEditForm();
+            qef.ShowDialog();
+
+            if (qef.DialogResult == DialogResult.OK)
+            {
+                _gameLogic.Questions.Add(qef.Question, qef.HiddenFromUi, qef.ShownOnlyForDoctors);
+            }
+
+            _gameLogic.UpdateQandA();
+            UpdateAllLists();
+        }
+
+        private void btnRemoveQuestion_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Sure you want to delete selected QUESTION?", "Sure?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                var selectedIndex = lstBoxQuestions.SelectedIndex;
+
+                var itemToDelete = _gameLogic.QuestionsNotAsked[selectedIndex];
+
+                _gameLogic.Questions.Remove(itemToDelete);
+                
+                _gameLogic.UpdateQandA();
+                UpdateAllLists();
+            }
+        }
+
+        private void btnEditQuestion_Click(object sender, EventArgs e)
+        {
+            var selectedIndex = lstBoxQuestions.SelectedIndex;
+
+            var itemToEdit = _gameLogic.QuestionsNotAsked[selectedIndex];
+
+            QuestionEditForm qef = new QuestionEditForm(itemToEdit.Text, itemToEdit.HiddenFromUi, itemToEdit.ShownOnlyForDoctors);
+            qef.ShowDialog();
+
+            if (qef.DialogResult == DialogResult.OK)
+            {
+                itemToEdit.Text = qef.Question;
+                itemToEdit.HiddenFromUi = qef.HiddenFromUi;
+                itemToEdit.ShownOnlyForDoctors = qef.ShownOnlyForDoctors;
+
+                _gameLogic.Questions.UpdateOnDbSide(itemToEdit);
+
+                _gameLogic.UpdateQandA();
+                UpdateAllLists();
+            }
+        }
+
+        private void lstBoxQuestions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstBoxQuestions.SelectedIndex > -1)
+            {
+                txtBoxCurrQuestion.Text = _gameLogic.QuestionsNotAsked[lstBoxQuestions.SelectedIndex].Text;
+            }
+        }
+
+        private void btnAddAnswer_Click(object sender, EventArgs e)
+        {
+            AnswerForm af = new AnswerForm();
+            af.ShowDialog();
+
+            if (af.DialogResult == DialogResult.OK)
+            {
+                _gameLogic.Answers.Add(af.Answer);
+            }
+
+            _gameLogic.UpdateQandA();
+            UpdateAllLists();
+        }
+
+        private void btnEditAnswer_Click(object sender, EventArgs e)
+        {
+            var selectedIndex = lstBoxAnswers.SelectedIndex;
+
+            var itemToEdit = _gameLogic.AnswersAll[selectedIndex];
+
+            AnswerForm ans = new AnswerForm(itemToEdit.Text);
+            ans.ShowDialog();
+
+            if (ans.DialogResult == DialogResult.OK)
+            {
+                itemToEdit.Text = ans.Answer;
+
+                _gameLogic.Answers.UpdateOnDbSide(itemToEdit);
+
+                _gameLogic.UpdateQandA();
+                UpdateAllLists();
+            }
+        }
+
+        private void btnRemoveAnswer_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Sure you want to delete selected ANSWER?", "Sure?", MessageBoxButtons.YesNo);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                var selectedIndex = lstBoxAnswers.SelectedIndex;
+
+                var itemToDelete = _gameLogic.AnswersAll[selectedIndex];
+
+                _gameLogic.Answers.Remove(itemToDelete);
+
+                _gameLogic.UpdateQandA();
+                UpdateAllLists();
+            }
+        }
+
+        public void AnswerOnQuestion(Reaction react)
+        {
+            if (_gameLogic.QuestionsNotAsked.Count == 0)
+            {
+                return;
+            }
+
+            var selectedIndex = lstBoxQuestions.SelectedIndex;
+
+            var question = _gameLogic.QuestionsNotAsked[selectedIndex];
+
+            _gameLogic.AnswerOnQuestion(question, react);
+
+            _gameLogic.UpdateQandA();
+
+            UpdateAllLists();
+        }
+
+        private void btnYes_Click(object sender, EventArgs e)
+        {
+            AnswerOnQuestion(Reaction.Yes);
+        }
+
+        private void btnNo_Click(object sender, EventArgs e)
+        {
+
+            AnswerOnQuestion(Reaction.No);
+        }
+
+        private void btnCloserYesThanNo_Click(object sender, EventArgs e)
+        {
+
+            AnswerOnQuestion(Reaction.CloserYesThanNo);
+        }
+
+        private void btnCloserNoThanYes_Click(object sender, EventArgs e)
+        {
+            AnswerOnQuestion(Reaction.CloserNoThanYes);
+        }
+
+        private void btnDoesNotMakeSence_Click(object sender, EventArgs e)
+        {
+            AnswerOnQuestion(Reaction.DoesNotMakeSence);
+        }
+
+        private void btnMarkAsAnswer_Click(object sender, EventArgs e)
+        {
+            var selectedIndex = lstBoxAnswers.SelectedIndex;
+
+            var selectedAnswer = _gameLogic.AnswersAll[selectedIndex];
+
+            using (var sqaf = new SubmitAnswerForm(_gameLogic, selectedAnswer))
+            {
+                sqaf.ShowDialog();
+            }
+
+            UpdateAllLists();
         }
     }
 }

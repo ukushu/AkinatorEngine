@@ -2,6 +2,8 @@
 {
     public class Answer
     {
+        public int Id;
+
         public string Text = string.Empty;
 
         /// <summary>

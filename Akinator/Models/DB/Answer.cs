@@ -4,7 +4,7 @@
     [PetaPoco.PrimaryKey("answer_id")]
     public class Answer
     {
-        public long answer_id { get; set; }
+        public int answer_id { get; set; }
         public string text { get; set; }
     }
 }

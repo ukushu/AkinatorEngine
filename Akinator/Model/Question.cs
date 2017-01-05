@@ -2,23 +2,23 @@
 {
     public class Question
     {
+        public int Id;
+
         public string Text = string.Empty;
 
         /// <summary>
         /// Enropee
         /// </summary>
         public float PossibilityOfThisIsNext = 0.001f;
-
-        //TODO
-        public int TimesAskedWhenThinkAbout(Answer answer)
+        
+        public int TimesAskedWhenThinkAbout(Db db, Answer answer)
         {
-            return 1;
+            return db.QuestionAskedWhenThinkAboutAnswer(this, answer);
         }
-
-        ///TODO:
-        public int ReactionCountWhenThinkAboutAnswer(Answer answer, Reaction reaction)
+        
+        public int ReactionCountWhenThinkAboutAnswer(Db db, Answer answer, Reaction reaction)
         {
-            return 1;
+            return db.QuestionReactionCountWhenThinkAboutAnswer(this,reaction, answer);
         }
 
         public bool HiddenFromUi = false;

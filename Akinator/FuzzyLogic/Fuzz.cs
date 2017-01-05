@@ -7,32 +7,37 @@ namespace AkinatorEngine.FuzzyLogic
     /// </summary>
     public static class Fuzz
     {
-        public static float And(params float[] variants)
+        /// <summary>
+        /// Logic AND returns possibility of all events in the same time
+        /// </summary>
+        public static float And(params float[] eventsPossibility)
         {
-            Helper.OutOfRangeCheck(variants);
+            Helper.OutOfRangeCheck(eventsPossibility);
 
-            return variants.Min();
+            var mnoj = eventsPossibility.Aggregate((p, x) => p *= x);
+
+            return mnoj;
         }
 
-        public static float Or(params float[] variants)
+        /// <summary>
+        /// returns possibility of any of events
+        /// </summary>
+        public static float Or(params float[] eventsPossibility)
         {
-            Helper.OutOfRangeCheck(variants);
+            Helper.OutOfRangeCheck(eventsPossibility);
 
-            return variants.Max();
+            var summ = eventsPossibility.Aggregate((p, x) => p += x);
+
+            return summ / eventsPossibility.Length;
         }
 
-        public static float Xor(params float[] variants)
+        /// <summary>
+        /// Returns IMpossibility of any of events
+        /// </summary>
+        /// <param name="eventsPossibility"></param>
+        public static float Not(params float[] eventsPossibility)
         {
-            return 1 - Or(variants);
-        }
-
-        public static float Not(params float[] variants)
-        {
-            Helper.OutOfRangeCheck(variants);
-
-            var summ = variants.Aggregate((p, x) => p += x);
-
-            return 1.0f - summ;
+            return 1.0f - Or(eventsPossibility);
         }
     }
 

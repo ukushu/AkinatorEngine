@@ -43,9 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Db.cs" />
+    <Compile Include="DbQuestionsEditor.cs" />
+    <Compile Include="DbAnswerEditor.cs" />
     <Compile Include="Models\DB\Answer.cs" />
-    <Compile Include="Models\DB\GameReactHistory.cs" />
-    <Compile Include="Models\DB\GamesHistory.cs" />
+    <Compile Include="Models\DB\GameDetails.cs" />
+    <Compile Include="Models\DB\GameHistory.cs" />
     <Compile Include="Models\DB\Question.cs" />
     <Compile Include="Models\DB\User.cs" />
     <Compile Include="Models\Generated\Database.cs">

@@ -258,5 +258,11 @@ namespace MedAkinator
 
             UpdateAllLists();
         }
+
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            _gameLogic.ForceNewGame();
+            UpdateAllLists();
+        }
     }
 }

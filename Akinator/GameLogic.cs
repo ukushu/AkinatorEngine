@@ -23,7 +23,7 @@ namespace AkinatorEngine
         {
             get
             {
-                var ids = QuestionAndReactionHistory.Keys.ToList().Select(i=>i.Id).ToList();
+                var ids = QuestionAndReactionHistory.Keys.ToList().Select(i => i.Id).ToList();
 
                 var exceptItems = QuestionsAll.Where(b => ids.Contains(b.Id)).ToList();
 
@@ -42,7 +42,7 @@ namespace AkinatorEngine
 
             UpdateQandA();
         }
-        
+
         public void UpdateQandA()
         {
             QuestionsAll = Db.QuestionsGetAll();
@@ -94,7 +94,7 @@ namespace AkinatorEngine
 
             return rez;
         }
-        
+
         private float CalcApriorAnswerPossibility(Answer answer)
         {
             if (ApriorAnswerPossibilityType == ApriorAnswerPossibilityType.Standard)
@@ -135,21 +135,21 @@ namespace AkinatorEngine
 
             return pBjAi;
         }
-        
+
         private void CalcQuestionIsNextPossibility()
         {
             if (QuestionsNotAsked.Count == 0 || AnswersAll.Count == 0)
                 return;
-            
+
             var answersWithMaxPoss = AnswersAll.Where(a => a.Possibility == AnswersAll[0].Possibility).ToList()[0]; ;
-            
+
             foreach (var q in QuestionsNotAsked)
             {
                 float maxChangeOfPossibility = 0;
 
                 List<float> diffPosForReactions = new List<float>();
 
-                foreach (Reaction react in Enum.GetValues(typeof (Reaction)))
+                foreach (Reaction react in Enum.GetValues(typeof(Reaction)))
                 {
                     var tmp = ExactReactionOnQuestionRelativelyAnswerPossibility(react, q, answersWithMaxPoss);
 
@@ -168,7 +168,14 @@ namespace AkinatorEngine
 
             Db.GameAdd(currUsr, ans, QuestionAndReactionHistory);
 
+            ForceNewGame();
+        }
+
+
+        public void ForceNewGame()
+        {
             QuestionAndReactionHistory.Clear();
+            CalcPossibilities();
         }
     }
 }

@@ -51,6 +51,7 @@
             this.btnCloserNoThanYes = new System.Windows.Forms.Button();
             this.btnDoesNotMakeSence = new System.Windows.Forms.Button();
             this.btnMarkAsAnswer = new System.Windows.Forms.Button();
+            this.btnNewGame = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -234,7 +235,7 @@
             this.txtBoxUser.Location = new System.Drawing.Point(459, 6);
             this.txtBoxUser.Name = "txtBoxUser";
             this.txtBoxUser.ReadOnly = true;
-            this.txtBoxUser.Size = new System.Drawing.Size(164, 20);
+            this.txtBoxUser.Size = new System.Drawing.Size(133, 20);
             this.txtBoxUser.TabIndex = 7;
             this.txtBoxUser.Text = "Admin";
             // 
@@ -247,15 +248,14 @@
             this.txtBoxCurrQuestion.Multiline = true;
             this.txtBoxCurrQuestion.Name = "txtBoxCurrQuestion";
             this.txtBoxCurrQuestion.ReadOnly = true;
-            this.txtBoxCurrQuestion.Size = new System.Drawing.Size(369, 122);
+            this.txtBoxCurrQuestion.Size = new System.Drawing.Size(412, 122);
             this.txtBoxCurrQuestion.TabIndex = 8;
             // 
             // btnYes
             // 
-            this.btnYes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnYes.Location = new System.Drawing.Point(664, 160);
+            this.btnYes.Location = new System.Drawing.Point(424, 160);
             this.btnYes.Name = "btnYes";
-            this.btnYes.Size = new System.Drawing.Size(129, 23);
+            this.btnYes.Size = new System.Drawing.Size(132, 23);
             this.btnYes.TabIndex = 9;
             this.btnYes.Text = "Yes";
             this.btnYes.UseVisualStyleBackColor = true;
@@ -263,8 +263,7 @@
             // 
             // btnNo
             // 
-            this.btnNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNo.Location = new System.Drawing.Point(661, 189);
+            this.btnNo.Location = new System.Drawing.Point(424, 189);
             this.btnNo.Name = "btnNo";
             this.btnNo.Size = new System.Drawing.Size(132, 23);
             this.btnNo.TabIndex = 10;
@@ -274,8 +273,7 @@
             // 
             // btnCloserYesThanNo
             // 
-            this.btnCloserYesThanNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCloserYesThanNo.Location = new System.Drawing.Point(661, 218);
+            this.btnCloserYesThanNo.Location = new System.Drawing.Point(424, 218);
             this.btnCloserYesThanNo.Name = "btnCloserYesThanNo";
             this.btnCloserYesThanNo.Size = new System.Drawing.Size(132, 23);
             this.btnCloserYesThanNo.TabIndex = 11;
@@ -285,8 +283,7 @@
             // 
             // btnCloserNoThanYes
             // 
-            this.btnCloserNoThanYes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCloserNoThanYes.Location = new System.Drawing.Point(661, 247);
+            this.btnCloserNoThanYes.Location = new System.Drawing.Point(424, 247);
             this.btnCloserNoThanYes.Name = "btnCloserNoThanYes";
             this.btnCloserNoThanYes.Size = new System.Drawing.Size(132, 23);
             this.btnCloserNoThanYes.TabIndex = 12;
@@ -296,8 +293,7 @@
             // 
             // btnDoesNotMakeSence
             // 
-            this.btnDoesNotMakeSence.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDoesNotMakeSence.Location = new System.Drawing.Point(661, 276);
+            this.btnDoesNotMakeSence.Location = new System.Drawing.Point(424, 276);
             this.btnDoesNotMakeSence.Name = "btnDoesNotMakeSence";
             this.btnDoesNotMakeSence.Size = new System.Drawing.Size(132, 23);
             this.btnDoesNotMakeSence.TabIndex = 13;
@@ -308,7 +304,7 @@
             // btnMarkAsAnswer
             // 
             this.btnMarkAsAnswer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMarkAsAnswer.Location = new System.Drawing.Point(600, 324);
+            this.btnMarkAsAnswer.Location = new System.Drawing.Point(644, 332);
             this.btnMarkAsAnswer.Name = "btnMarkAsAnswer";
             this.btnMarkAsAnswer.Size = new System.Drawing.Size(193, 23);
             this.btnMarkAsAnswer.TabIndex = 14;
@@ -316,11 +312,23 @@
             this.btnMarkAsAnswer.UseVisualStyleBackColor = true;
             this.btnMarkAsAnswer.Click += new System.EventHandler(this.btnMarkAsAnswer_Click);
             // 
+            // btnNewGame
+            // 
+            this.btnNewGame.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNewGame.Location = new System.Drawing.Point(762, 3);
+            this.btnNewGame.Name = "btnNewGame";
+            this.btnNewGame.Size = new System.Drawing.Size(75, 23);
+            this.btnNewGame.TabIndex = 15;
+            this.btnNewGame.Text = "NEW GAME";
+            this.btnNewGame.UseVisualStyleBackColor = true;
+            this.btnNewGame.Click += new System.EventHandler(this.btnNewGame_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(805, 359);
+            this.ClientSize = new System.Drawing.Size(848, 359);
+            this.Controls.Add(this.btnNewGame);
             this.Controls.Add(this.btnMarkAsAnswer);
             this.Controls.Add(this.btnDoesNotMakeSence);
             this.Controls.Add(this.btnCloserNoThanYes);
@@ -370,6 +378,7 @@
         private System.Windows.Forms.Button btnCloserNoThanYes;
         private System.Windows.Forms.Button btnDoesNotMakeSence;
         private System.Windows.Forms.Button btnMarkAsAnswer;
+        private System.Windows.Forms.Button btnNewGame;
     }
 }
 

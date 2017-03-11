@@ -1,10 +1,9 @@
-# akinator# Akinator
+# C#  Akinator game engine
+(this is not original akinantor ofc)
 
-C# Akinator engine (this is not original akinantor ofc)
+Short app descritption: Akinator is an expert system based on fuzzy logic. 
 
-Short app descritption:
-Akinator is expert system based on fuzzy logic. 
-Pretty awesome game: http://en.akinator.com/
+Original game is pretty awesome and world wide known: http://en.akinator.com/
 
 Main characteristics:
 * Self-educating
@@ -12,7 +11,6 @@ Main characteristics:
 * Intelligent system of a next question choose
 
 Most of code was based on the following article: https://geektimes.ru/post/84364/
-Partially I didn't understand the article, so I had wrote code partially from my head, 
-so way to calculate some things may be different from the original article.
+Partially I didn't understand the article, so some part of code I had wrote from my head. That's why the way to calculate some things may be different from the original article.
 
 I had choose Mozilla Public License 2.0 for this project.

@@ -13,4 +13,13 @@ Main characteristics:
 Most of code was based on the following article: https://geektimes.ru/post/84364/
 Partially I didn't understand the article, so some part of code I had wrote from my head. That's why the way to calculate some things may be different from the original article.
 
+
+additional info you can read on wiki:
+
+https://en.wikipedia.org/wiki/Expert_system
+
+https://ru.wikipedia.org/wiki/Экспертная_система
+
+_________________
+
 I had choose Mozilla Public License 2.0 for this project.

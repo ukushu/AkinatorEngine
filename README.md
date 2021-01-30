@@ -20,7 +20,7 @@ https://en.wikipedia.org/wiki/Expert_system
 
 https://ru.wikipedia.org/wiki/Экспертная_система
 
-And especially the following article:
+And especially interesting the following article for medicine workers:
 https://ru.wikipedia.org/wiki/MYCIN
 
 _________________

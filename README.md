@@ -20,6 +20,9 @@ https://en.wikipedia.org/wiki/Expert_system
 
 https://ru.wikipedia.org/wiki/Экспертная_система
 
+And especially the following article:
+https://ru.wikipedia.org/wiki/MYCIN
+
 _________________
 
 I had choose Mozilla Public License 2.0 for this project.

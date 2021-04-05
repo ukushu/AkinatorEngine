@@ -31,3 +31,6 @@ https://ru.wikipedia.org/wiki/MYCIN
 _________________
 
 I had choose Mozilla Public License 2.0 for this project.
+
+
+

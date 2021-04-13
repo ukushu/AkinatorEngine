@@ -3,12 +3,7 @@
 
 Short app descritption: Akinator is an expert system based on fuzzy logic. 
 
-
-
 Original game is pretty awesome and world wide known: http://en.akinator.com/
-
-
-
 
 Main characteristics:
 * Self-educating

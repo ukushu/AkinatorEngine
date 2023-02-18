@@ -1,7 +1,7 @@
 # C#  Akinator game engine 
 (this is not original akinantor ofc)
 
-Short app descritption: Akinator is an **fuzzy logic expert system based**
+Short app descritption: Akinator is an **fuzzy logic expert system**
 
 Original game is pretty awesome and world wide known: http://en.akinator.com/
 

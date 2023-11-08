@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using AkinatorEngine.Model;
 using AkinatorEngine.Models.DB;
@@ -21,9 +23,49 @@ namespace AkinatorEngine
         public Db(string connection = @"data source=AkinatorDB.sqlite; Version=3;")
         {
             var a = new System.Data.SQLite.SQLiteConnection(connection);
+            CreateSchema(a);
             a.Open();
 
             _db = new PetaPoco.Database(a);
+        }
+
+
+        private void CreateSchema(SQLiteConnection connection)
+        {
+            try
+            {
+                // Intenta abrir la conexión si no está ya abierta
+                if (connection.State != System.Data.ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                SQLiteCommand cmd;
+                string[] tableStatements = {
+                         $"CREATE TABLE IF NOT EXISTS {_tblA} (answer_id INTEGER PRIMARY KEY, text TEXT);",
+                         $"CREATE TABLE IF NOT EXISTS {_tblQ} (question_id INTEGER PRIMARY KEY, text TEXT, hidden_from_ui INTEGER, shown_only_for_doctors INTEGER);",
+                         $"CREATE TABLE IF NOT EXISTS {_tblUsrs} (user_id INTEGER PRIMARY KEY, is_doctor INTEGER, login text);",
+                         $"CREATE TABLE IF NOT EXISTS {_tblGdetails} (id INTEGER PRIMARY KEY, game_id INTEGER, question_id INTEGER, reaction_id INTEGER);",
+                         $"CREATE TABLE IF NOT EXISTS {_tblGhistory} (game_id INTEGER PRIMARY KEY, user_id INTEGER, answer_id INTEGER, approved_by_moderator INTEGER);",
+                };
+
+                foreach (var tableStatement in tableStatements)
+                {
+                    cmd = new SQLiteCommand(tableStatement, connection);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public void QuestionAdd(ref Model.Question q)
